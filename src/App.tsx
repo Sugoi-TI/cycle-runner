@@ -7,13 +7,14 @@ import "./App.css";
 
 const labels = [
   "Stripe integration",
-  "Onboarding",
   "Common components",
-  "Confetti 🎉",
-  "Out of scope",
+  "Onboarding changes",
+  "Out of scope tasks",
+  "15 out of 10 ppl got sick",
+  "4:00 AM coding",
   "Test in prod",
-  "15 out of 10 ppl sick",
-  "4:00 AM coding"
+  "Fixed 1 bug created 2",
+  "Confetti 🎉",
 ];
 
 const characters = [battleHamster, constructionHamster, spaceHamster];
@@ -21,10 +22,10 @@ const characters = [battleHamster, constructionHamster, spaceHamster];
 const Game: FC = () => {
   const [selectedCharacter, setSelectedCharacter] = useState(characters[0]);
   const [isJumping, setIsJumping] = useState(false);
-
+  const [cactusKey, setCactusKey] = useState(0);
   const [gameStart, setGameStart] = useState(true);
   const [gameOver, setGameOver] = useState<boolean>(false);
-  const [cactusLabel, setCactusLabel] = useState("");
+  const [cactusLabelId, setCactusLabelId] = useState(0);
 
   const dinoRef = useRef<HTMLDivElement | null>(null);
   const cactusRef = useRef<HTMLDivElement | null>(null);
@@ -32,6 +33,7 @@ const Game: FC = () => {
   const restartGame = () => {
     setGameOver(false);
     setIsJumping(false);
+    setCactusLabelId(0);
   };
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const Game: FC = () => {
 
         setTimeout(() => {
           setIsJumping(false)
-        }, 2000);
+        }, 2200);
       }
     };
 
@@ -68,8 +70,15 @@ const Game: FC = () => {
           return;
         }
 
-        if (cactusBox.right >= window.innerWidth) {
-          setCactusLabel(getRandomLabel());
+        if (cactusBox.left < -100) {
+          setCactusLabelId((id) => {
+            if (id === labels.length - 1) {
+              return 0
+            } else {
+              return id + 1
+            }
+          });
+          setCactusKey((key) => key + 1);
         }
       }
 
@@ -81,11 +90,6 @@ const Game: FC = () => {
     return () => cancelAnimationFrame(animationFrameId);
 
   }, [gameOver]);
-
-  const getRandomLabel = () => {
-    const randomIndex = Math.floor(Math.random() * labels.length);
-    return labels[randomIndex];
-  };
 
   return (
     <div className="wrapper">
@@ -115,17 +119,21 @@ const Game: FC = () => {
         )}
         {gameStart && (
           <div className="game-over">
+            Appetite for this pitch is small (2 weeks)
+            <br/>
+            Are you ready?
             <button onClick={() => setGameStart(false)} className="restart-button">Start</button>
           </div>
         )}
         <motion.div
           ref={dinoRef}
           className="dino"
-          style={{ backgroundImage: `url(${selectedCharacter})` }}
-          animate={{ y: isJumping ? -150 : 0 }}
-          transition={{ type: "spring", stiffness: 200 }}
+          style={{backgroundImage: `url(${selectedCharacter})`}}
+          animate={{y: isJumping ? -150 : 0}}
+          transition={{type: "spring", stiffness: 200}}
         />
-        {!gameStart && !gameOver && <div ref={cactusRef} className="cactus">{cactusLabel}</div>}
+        {!gameStart && !gameOver &&
+            <div key={cactusKey} ref={cactusRef} className="cactus">{labels[cactusLabelId]}</div>}
       </div>
     </div>
   );

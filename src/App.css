@@ -1,10 +1,20 @@
 body {
   height: 100vh;
   margin: 0;
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+button {
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 #root {
   height: 100%;
+  background: #232323;
 }
 
 .wrapper {
@@ -16,6 +26,7 @@ body {
 
 .game-title {
   margin-top: 32px;
+  color: white;
 }
 
 .game-container {
@@ -54,8 +65,9 @@ body {
   text-align: center;
   bottom: 0;
   width: 200px;
-  font-size: 36px;
+  font-size: 28px;
   background: white;
+  padding: 4px;
   position: absolute;
   animation: moveCactus 5s linear infinite;
 }
@@ -72,18 +84,20 @@ body {
 .game-over {
   display: flex;
   flex-direction: column;
+  text-align: center;
   gap: 6px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 24px;
-  color: red;
-  padding: 8px;
+  padding: 8px 16px;
   background: white;
 }
 
-
+.character-selection {
+  color: white;
+}
 .characters {
   display: flex;
   gap: 12px;
@@ -102,4 +116,10 @@ body {
 
 .characters img:hover {
   border: 2px solid red;
+}
+
+.info {
+  color:white;
+  font-size: 28px;
+  bottom: 20%;
 }
