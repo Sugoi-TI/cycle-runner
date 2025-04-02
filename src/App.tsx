@@ -36,14 +36,18 @@ const Game: FC = () => {
     setCactusLabelId(0);
   };
 
+  const handleJump = () => {
+    setIsJumping(true)
+
+    setTimeout(() => {
+      setIsJumping(false)
+    }, 2200);
+  }
+
   useEffect(() => {
     const handleSpacebar = (event: KeyboardEvent) => {
       if (event.code === "Space" && !isJumping && !gameOver) {
-        setIsJumping(true)
-
-        setTimeout(() => {
-          setIsJumping(false)
-        }, 2200);
+        handleJump()
       }
     };
 
@@ -93,23 +97,24 @@ const Game: FC = () => {
 
   return (
     <div className="wrapper">
-      <h1 className="game-title">Unlisted cycle runner</h1>
-      {(gameStart || gameOver) && (
-        <div className="character-selection">
-          <h2>Choose your hamster</h2>
-          <div className="characters">
-            {characters.map((char) => (
-              <img
-                key={char}
-                src={char}
-                alt="character"
-                className={char === selectedCharacter ? "selected" : ""}
-                onClick={() => setSelectedCharacter(char)}
-              />
-            ))}
+      <div>
+        <h1 className="game-title">Unlisted cycle runner</h1>
+          <div className="character-selection" style={{visibility: (gameStart || gameOver) ? undefined: "hidden" }}>
+            <h2>Choose your hamster</h2>
+            <div className="characters">
+              {characters.map((char) => (
+                <img
+                  key={char}
+                  src={char}
+                  alt="character"
+                  className={char === selectedCharacter ? "selected" : ""}
+                  onClick={() => setSelectedCharacter(char)}
+                  onTouchEnd={() => setSelectedCharacter(char)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+      </div>
       <div className="game-container">
         {gameOver && (
           <div className="game-over">
@@ -135,6 +140,12 @@ const Game: FC = () => {
         {!gameStart && !gameOver &&
             <div key={cactusKey} ref={cactusRef} className="cactus">{labels[cactusLabelId]}</div>}
       </div>
+        <div className="footer"
+        style={{visibility: gameStart || gameOver ? "hidden" : undefined}}
+        >
+          Press SPACE or this button
+          <button onClick={handleJump}>Jump</button>
+        </div>
     </div>
   );
 };
