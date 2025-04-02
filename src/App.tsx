@@ -69,22 +69,25 @@ const Game: FC = () => {
   };
 
   return (
-    <div className="game-container">
-      {gameOver && (
-        <div className="game-over">
-          Well, you'll finish it on cooldown
-          <button onClick={restartGame} className="restart-button">Restart</button>
-        </div>
-      )}
-      <motion.div
-        ref={dinoRef}
-        className="dino"
-        animate={{ y: isJumping ? -150 : 0 }}
-        transition={{ type: "spring", stiffness: 200 }}
-      />
-      {!gameOver && <div ref={cactusRef} className="cactus" >
-          <div className="text">{cactusLabel}</div>
-      </div>}
+    <div className="wrapper">
+      <h1 className="game-title">Unlisted cycle runner</h1>
+      <div className="game-container">
+        {gameOver && (
+          <div className="game-over">
+            Well, you'll finish it on cooldown
+            <button onClick={restartGame} className="restart-button">Restart</button>
+          </div>
+        )}
+        <motion.div
+          ref={dinoRef}
+          className="dino"
+          animate={{ y: isJumping ? -150 : 0 }}
+          transition={{ type: "spring", stiffness: 200 }}
+        />
+        {!gameOver && <div ref={cactusRef} className="cactus" >
+            <div className="text">{cactusLabel}</div>
+        </div>}
+      </div>
     </div>
   );
 };
